@@ -2,16 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4ad51ce0-c9a3-4ce0-b8a8-9f00fbe43c22" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/go-train.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ch0/HelloWorld.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ch1/FetchUrl.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ch1/FindDuplicateLine.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ch1/GifTest.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ch1/OsTest.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ch1/ConcurrentFetchUrl.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ch1/Server.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ch2/echo4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ch2/echo4.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ch2/tempconv0.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ch1/FetchUrl.go" beforeDir="false" afterPath="$PROJECT_DIR$/ch1/FetchUrl.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +36,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go Application" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
@@ -49,14 +47,16 @@
     <property name="configurable.GoLibrariesConfigurable.is.expanded" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="watcher.settings" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ch2" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build GifTest.go">
+  <component name="RunManager" selected="Go Build.go build tempconv0.go">
     <configuration name="go build FindDuplicateLine.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="go-train" />
       <working_directory value="$PROJECT_DIR$" />
@@ -73,11 +73,11 @@
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="go build HelloWorld.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build Server.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="go-train" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/ch0/HelloWorld.go" />
+      <filePath value="$PROJECT_DIR$/ch1/Server.go" />
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
@@ -89,12 +89,21 @@
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="go build tempconv0.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="go-train" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/ch2/tempconv0.go" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build tempconv0.go" />
+        <item itemvalue="Go Build.go build Server.go" />
         <item itemvalue="Go Build.go build GifTest.go" />
         <item itemvalue="Go Build.go build FindDuplicateLine.go" />
         <item itemvalue="Go Build.go build osTest.go" />
-        <item itemvalue="Go Build.go build HelloWorld.go" />
       </list>
     </recent_temporary>
   </component>
@@ -113,6 +122,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
