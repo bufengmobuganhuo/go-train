@@ -53,6 +53,43 @@ func triangle() {
 	fmt.Println(c)
 }
 
+// 定义常量
+func consts() {
+	const (
+		filename = "abc.txt"
+		a, b     = 3, 4
+	)
+	var c int
+	c = int(math.Sqrt(a*a + b*b))
+	fmt.Println(filename, c)
+}
+
+// 定义枚举
+func enums() {
+	const (
+		cpp    = 0
+		java   = 1
+		python = 2
+	)
+	fmt.Println(cpp, java, python)
+	// 从0开始，后面递增
+	const (
+		ruby = iota
+		c
+		golang
+	)
+	fmt.Println(ruby, c, golang)
+	const (
+		b = 1 << (10 * iota)
+		kb
+		mb
+		gb
+		tb
+		pb
+	)
+	fmt.Println(b, kb, mb, gb, tb, pb)
+}
+
 func main() {
 	variableZeroValue()
 	variableInitialValue()
@@ -61,6 +98,7 @@ func main() {
 	fmt.Println(aa, ss)
 
 	euler()
-
 	triangle()
+	consts()
+	enums()
 }
