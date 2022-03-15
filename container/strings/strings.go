@@ -33,6 +33,7 @@ func main() {
 	}
 	fmt.Println()
 
+	// 获取每个字符
 	for i, ch := range []rune(s) {
 		fmt.Printf("(%d %c)", i, ch)
 	}
