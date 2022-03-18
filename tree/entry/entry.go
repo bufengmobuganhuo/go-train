@@ -26,4 +26,10 @@ func main() {
 	pRoot.SetValueWithPointer(4)
 	// 虽然pRoot是一个地址，而print的入参是一个值传递的变量，这里会把对应的变量找到，传入print
 	pRoot.Print()
+
+	nodeCount := 0
+	root.TraverseFunc(func(n *tree.Node) {
+		nodeCount++
+	})
+	fmt.Println("Node count:", nodeCount)
 }
