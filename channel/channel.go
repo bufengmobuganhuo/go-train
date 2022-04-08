@@ -10,9 +10,9 @@ import (
 func createWorker(id int) chan<- int {
 	c := make(chan int)
 	go func() {
-		for {
+		for n := range c {
 			// 将channel的数据赋值给n
-			fmt.Printf("Worker %d received %c\n", id, <-c)
+			fmt.Printf("Worker %d received %c\n", id, n)
 		}
 	}()
 	return c
