@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	// _表示引入，但是没有使用
+	_ "net/http/pprof"
 
 	"mengyu.com/gotrain/errorhandling/filelistingserver/filelisting"
 )
