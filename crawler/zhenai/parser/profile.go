@@ -8,7 +8,7 @@ import (
 	"mengyu.com/gotrain/crawler/model"
 )
 
-var ageRe = regexp.MustCompile(`<div data-v-8b1eac0c="" class="m-btn purple">43岁</div>`)
+var ageRe = regexp.MustCompile(`<td><span class="label">年龄：</span>(\d+)岁</td>`)
 
 var heightRe = regexp.MustCompile(
 	`<td><span class="label">身高：</span>(\d+)CM</td>`)
@@ -38,16 +38,17 @@ var idUrlRe = regexp.MustCompile(
 	`.*album\.zhenai\.com/u/([\d]+)`)
 
 // 解析某个具体用户的信息
-func ParseProfile(contents []byte) engine.ParseResult {
+func ParseProfile(contents []byte, name string) engine.ParseResult {
 	profile := model.Profile{}
+	profile.Name = name
 
-	if age, err := strconv.Atoi(extractString(contents, ageRe)); err != nil {
+	if age, err := strconv.Atoi(extractString(contents, ageRe)); err == nil {
 		profile.Age = age
 	}
-	if height, err := strconv.Atoi(extractString(contents, heightRe)); err != nil {
+	if height, err := strconv.Atoi(extractString(contents, heightRe)); err == nil {
 		profile.Height = height
 	}
-	if weight, err := strconv.Atoi(extractString(contents, weightRe)); err != nil {
+	if weight, err := strconv.Atoi(extractString(contents, weightRe)); err == nil {
 		profile.Weight = weight
 	}
 	profile.Income = extractString(
@@ -69,7 +70,7 @@ func ParseProfile(contents []byte) engine.ParseResult {
 	profile.Xinzuo = extractString(
 		contents, xinzuoRe)
 
-	result := engine.ParseResult {
+	result := engine.ParseResult{
 		Items: []interface{}{profile},
 	}
 	return result
