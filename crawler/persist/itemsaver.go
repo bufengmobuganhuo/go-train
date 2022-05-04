@@ -5,10 +5,17 @@ import (
 	"log"
 
 	"github.com/olivere/elastic/v7"
+	"mengyu.com/gotrain/crawler/engine"
 )
 
-func ItemSaver() chan interface{} {
-	out := make(chan interface{})
+func ItemSaver(index string) (chan engine.Item, error) {
+	client, err := elastic.NewClient(
+		// 在docker中必须关闭
+		elastic.SetSniff(false))
+	if err != nil {
+		return nil, err
+	}
+	out := make(chan engine.Item)
 	go func() {
 		itemCount := 0
 		for {
@@ -16,26 +23,24 @@ func ItemSaver() chan interface{} {
 			log.Printf("Item Saver got item #%d: %v", itemCount, item)
 			itemCount++
 
-			_, err := Save(item)
+			err := Save(client, index, item)
 			if err != nil {
-				log.Print("Item Saver: error saving item %v: %v", item, err)
+				log.Printf("Item Saver: error saving item %v:%v", item, err)
 			}
 
 		}
 	}()
-	return out
+	return out, nil
 }
 
-func Save(item interface{}) (string, error) {
-	client, err := elastic.NewClient(
-		// 在docker中必须关闭
-		elastic.SetSniff(false))
-	if err != nil {
-		return "", nil
+func Save(client *elastic.Client, index string, item engine.Item) error {
+	indexService := client.Index().Index(index).BodyJson(item)
+	if item.Id != "" {
+		indexService.Id(item.Id)
 	}
-	resp, err := client.Index().Index("dating_profile").BodyJson(item).Do(context.Background())
+	_, err := indexService.Do(context.Background())
 	if err != nil {
-		return "", err
+		return err
 	}
-	return resp.Id, nil
+	return nil
 }

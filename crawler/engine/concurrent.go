@@ -3,7 +3,7 @@ package engine
 type ConcurrentEngine struct {
 	Scheduler        Scheduler
 	WorkerCount      int
-	ItemChan         chan interface{}
+	ItemChan         chan Item
 	RequestProcessor Processor
 }
 
@@ -37,7 +37,7 @@ func (e ConcurrentEngine) Run(seeds ...Request) {
 		result := <-out
 		for _, item := range result.Items {
 			// 异步发送获取到的结果，以存储
-			go func(i interface{}) {
+			go func(i Item) {
 				e.ItemChan <- i
 			}(item)
 		}

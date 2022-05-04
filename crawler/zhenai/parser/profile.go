@@ -38,7 +38,7 @@ var idUrlRe = regexp.MustCompile(
 	`.*album\.zhenai\.com/u/([\d]+)`)
 
 // 解析某个具体用户的信息
-func ParseProfile(contents []byte, name string) engine.ParseResult {
+func ParseProfile(contents []byte, url string, name string) engine.ParseResult {
 	profile := model.Profile{}
 	profile.Name = name
 
@@ -71,8 +71,25 @@ func ParseProfile(contents []byte, name string) engine.ParseResult {
 		contents, xinzuoRe)
 
 	result := engine.ParseResult{
-		Items: []interface{}{profile},
+		Items: []engine.Item{
+			{
+				Url:     url,
+				Id:      extractString([]byte(url), idUrlRe),
+				Payload: profile,
+			},
+		},
 	}
+
+	matches := guessRe.FindAllSubmatch(
+		contents, -1)
+	for _, m := range matches {
+		result.Requests = append(result.Requests,
+			engine.Request{
+				Url:        string(m[1]),
+				ParserFunc: ProfileParser(string(m[2])),
+			})
+	}
+
 	return result
 }
 
@@ -82,4 +99,10 @@ func extractString(contents []byte, re *regexp.Regexp) string {
 		return string(match[1])
 	}
 	return ""
+}
+
+func ProfileParser(name string) engine.ParserFunc {
+	return func(contents []byte, url string) engine.ParseResult {
+		return ParseProfile(contents, url, name)
+	}
 }

@@ -13,7 +13,7 @@ func TestParseCityList(t *testing.T) {
 		panic(err)
 	}
 
-	result := parser.ParseCityList(contents)
+	result := parser.ParseCityList(contents, "")
 
 	const resultSize = 470
 	var expectedUrls = []string{
@@ -30,7 +30,7 @@ func TestParseCityList(t *testing.T) {
 		t.Errorf("result should have %d requests; but had %d", resultSize, len(result.Requests))
 	}
 	if len(result.Items) != resultSize {
-		t.Errorf("result should have %d items; but had %d", resultSize, result.Items)
+		t.Errorf("result should have %d items; but had %d", resultSize, len(result.Items))
 	}
 	for i, url := range expectedUrls {
 		if result.Requests[i].Url != url {
@@ -38,8 +38,8 @@ func TestParseCityList(t *testing.T) {
 		}
 	}
 	for i, city := range expectedCities {
-		if result.Items[i].(string) != city {
-			t.Errorf("expected city #%d: %s; but was %s", i, city, result.Items[i].(string))
+		if result.Items[i].Payload.(string) != city {
+			t.Errorf("expected city #%d: %s; but was %s", i, city, result.Items[i].Payload.(string))
 		}
 	}
 	// verify result

@@ -14,18 +14,15 @@ var (
 )
 
 // 解析具体城市页，取出一个城市中，每个具体用户的链接
-func ParseCity(contents []byte) engine.ParseResult {
+func ParseCity(contents []byte, _ string) engine.ParseResult {
 	matches := profileRe.FindAllSubmatch(contents, -1)
 
 	result := engine.ParseResult{}
 	for _, m := range matches {
-		name := string(m[2])
 		result.Requests = append(result.Requests, engine.Request{
 			Url: string(m[1]),
 			// 函数式编程，使函数兼容
-			ParserFunc: func(b []byte) engine.ParseResult {
-				return ParseProfile(b, name)
-			},
+			ParserFunc: ProfileParser(string(m[2])),
 		})
 	}
 
