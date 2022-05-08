@@ -6,6 +6,7 @@ import (
 	"mengyu.com/gotrain/crawler/persist"
 )
 
+// 封装一个RPC服务
 type ItemSaverService struct {
 	Client *elastic.Client
 	Index  string

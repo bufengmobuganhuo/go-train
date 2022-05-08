@@ -15,5 +15,5 @@ func Worker(req Request) (ParseResult, error) {
 		return ParseResult{}, err
 	}
 	// 解析页面，返回结果
-	return req.ParserFunc(body, req.Url), nil
+	return req.Parser.Parse(body, req.Url), nil
 }

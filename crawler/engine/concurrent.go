@@ -55,6 +55,7 @@ func (e *ConcurrentEngine) createWorker(in chan Request, out chan ParseResult, r
 			ready.WorkerReady(in)
 			// 从in channel中获取到request
 			request := <-in
+			// 处理爬虫任务的worker
 			parseResult, err := e.RequestProcessor(request)
 			if err != nil {
 				continue

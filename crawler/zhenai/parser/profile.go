@@ -38,7 +38,7 @@ var idUrlRe = regexp.MustCompile(
 	`.*album\.zhenai\.com/u/([\d]+)`)
 
 // 解析某个具体用户的信息
-func ParseProfile(contents []byte, url string, name string) engine.ParseResult {
+func parseProfile(contents []byte, url string, name string) engine.ParseResult {
 	profile := model.Profile{}
 	profile.Name = name
 
@@ -86,7 +86,7 @@ func ParseProfile(contents []byte, url string, name string) engine.ParseResult {
 		result.Requests = append(result.Requests,
 			engine.Request{
 				Url:        string(m[1]),
-				ParserFunc: ProfileParser(string(m[2])),
+				Parser: NewProfileParser(string(m[2])),
 			})
 	}
 
@@ -101,8 +101,20 @@ func extractString(contents []byte, re *regexp.Regexp) string {
 	return ""
 }
 
-func ProfileParser(name string) engine.ParserFunc {
-	return func(contents []byte, url string) engine.ParseResult {
-		return ParseProfile(contents, url, name)
+type ProfileParser struct {
+	userName string
+}
+// 实现Parser接口
+func (p *ProfileParser) Parse(contents []byte, url string) engine.ParseResult {
+	return parseProfile(contents, url, p.userName)
+}
+
+func (p *ProfileParser) Serialize() (name string, args interface{}) {
+	return "ProfileParser", p.userName
+}
+
+func NewProfileParser(name string) *ProfileParser {
+	return &ProfileParser{
+		userName: name,
 	}
 }
