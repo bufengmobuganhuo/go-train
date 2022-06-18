@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"mengyu.com/gotrain/tree"
+	"mengyu.com/gotrain/lang/tree"
 )
 
 // 内嵌的方式扩展已有struct，和java的继承作用一样，但不是继承

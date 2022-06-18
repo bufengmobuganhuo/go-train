@@ -6,7 +6,7 @@ import (
 	"io"
 	"strings"
 
-	"mengyu.com/gotrain/funtional/fib"
+	"mengyu.com/gotrain/lang/basic/func/funtional/fib"
 )
 
 // 定义一个类型，这个类型实际是一个入参为空，返回为int的函数

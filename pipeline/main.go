@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	const filename = "small.in"
+	const filename = "large.in"
 	const n = 100000000
 	file, err := os.Create(filename)
 	if err != nil {

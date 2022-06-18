@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"mengyu.com/gotrain/queue"
+	"mengyu.com/gotrain/lang/container/queue"
 )
 
 func main() {

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"mengyu.com/gotrain/retriever/mock"
-	"mengyu.com/gotrain/retriever/real"
+	"mengyu.com/gotrain/lang/retriever/mock"
+	"mengyu.com/gotrain/lang/retriever/real"
 )
 
 func getRetriever() Retriever {

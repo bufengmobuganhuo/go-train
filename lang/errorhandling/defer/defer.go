@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"mengyu.com/gotrain/funtional/fib"
+	"mengyu.com/gotrain/lang/basic/func/funtional/fib"
 )
 
 func tryDefer() {

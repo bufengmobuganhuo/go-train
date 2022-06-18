@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"mengyu.com/gotrain/tree"
+	"mengyu.com/gotrain/lang/tree"
 )
 
 func main() {
