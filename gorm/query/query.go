@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 	"mengyu.com/gotrain/gorm/connect"
@@ -15,7 +17,9 @@ func main() {
 	}
 	// selectOne(db)
 	// selectById(db)
-	selectByConditions(db)
+	// selectByConditions(db)
+	// selectByOffset(db)
+	selectByGroup(db)
 }
 
 func selectOne(db *gorm.DB) {
@@ -89,6 +93,7 @@ func selectByConditions(db *gorm.DB) {
 	var users []model.User
 	// 获取到所有匹配的记录
 	// SELECT * FROM users WHERE name <> 'jinzhu';
+	// 也可以使用：db.Find(&users, "name <> ?", "jinzhu")
 	db.Where("name <> ?", "jinzhu").Find(&users)
 
 	var users1 []model.User
@@ -108,14 +113,16 @@ func selectByConditions(db *gorm.DB) {
 	var user1 model.User
 	// 使用struct传参，默认是AND条件，如果struct的字段值是零值，则不会作为查询条件，如果想将零值作为查询条件，可以使用Map传参
 	// SELECT * FROM users WHERE name = "jinzhu" AND age = 20 ORDER BY id LIMIT 1;
+	// 也可以使用：db.First(&users, User{Name: "jinzhu", Age: 20})
 	db.Where(&model.User{Name: "jinzhu", Age: 20}).First(&user1)
 	user1.Print()
 
-	// 
+	//
 
 	var users4 []model.User
 	// 使用Map传参，默认是AND的关系
 	// SELECT * FROM users WHERE name = "jinzhu" AND age = 20;
+	// 也可以使用：db.Find(&users, map[string]interface{}{"name": "jinzhu", "age": 20})
 	db.Where(map[string]interface{}{"name": "jinzhu", "age": 20}).Find(&users4)
 	for _, usr := range users4 {
 		usr.Print()
@@ -126,6 +133,86 @@ func selectByConditions(db *gorm.DB) {
 	// SELECT * FROM users WHERE id IN (20, 21, 22);
 	db.Where([]int64{16, 17}).Find(&users5)
 	for _, usr := range users5 {
+		usr.Print()
+	}
+
+	var users6 []model.User
+	// 指定结构体的查询字段
+	// SELECT * FROM users WHERE age = 12;
+	db.Where(&model.User{Name: "jinzhu", Age: 12}, "Age").Find(&users6)
+	for _, usr := range users6 {
+		usr.Print()
+	}
+
+	var user2 model.User
+	// SELECT * FROM users WHERE NOT name = "jinzhu" ORDER BY id LIMIT 1;
+	db.Not("name = ?", "jinzhu").First(&user2)
+	user2.Print()
+
+	var users7 []model.User
+	// OR查询：SELECT * FROM users WHERE name = 'jinzhu' OR (name = 'jinzhu 2' AND age = 18);
+	db.Where("name = 'jinzhu'").Or(model.User{Name: "jinzhu 2", Age: 18}).Find(&users7)
+	for _, usr := range users7 {
+		usr.Print()
+	}
+
+	var users8 []model.User
+	// 只查询特定字段：
+	db.Select("name", "age").Where("name <> ?", "jinzhu").Find(&users8)
+	for _, usr := range users8 {
+		usr.Print()
+	}
+
+	var users9 []model.User
+	// 排序：SELECT * FROM users ORDER BY age desc, name;
+	db.Order("age desc, name").Find(&users9)
+	for _, usr := range users9 {
+		usr.Print()
+	}
+}
+
+func selectByOffset(db *gorm.DB) {
+	var users1, users2 []model.User
+	// 分页查询：
+	// SELECT * FROM users OFFSET 1 LIMIT 100; (users1)
+	// SELECT * FROM users; (users2)
+	db.Offset(1).Limit(100).Find(&users1).Offset(-1).Find(&users2)
+	print(users1)
+	print(users2)
+}
+
+// 分组查询
+func selectByGroup(db *gorm.DB) {
+	type Result struct {
+		Name  string
+		Total int
+	}
+	var res []Result
+	// SELECT name, sum(age) as total where name like '%jinzhu%' group by name
+	// 对于Scan：如果传入的是一个struct，则返回第一条结果；如果传入的是一个struct slice，则返回所有结果
+	db.Model(&model.User{}).Select("name, sum(age) as total").Where("name like ?", "%jinzhu%").Group("name").Scan(&res)
+	json, err := json.Marshal(res)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%s\n", json)
+}
+
+// Join查询
+func selectByJoin(db *gorm.DB)  {
+	type result struct {
+		Name  string
+		Email string
+	  }
+	  
+	  // SELECT users.name, emails.email FROM `users` left join emails on emails.user_id = users.id
+	  db.Model(&model.User{}).Select("users.name, emails.email").Joins("left join emails on emails.user_id = users.id").Scan(&result{})
+}
+
+
+
+func print(users []model.User) {
+	for _, usr := range users {
 		usr.Print()
 	}
 }

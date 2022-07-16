@@ -23,9 +23,7 @@ func main() {
 func create(db *gorm.DB) {
 	loc, _ := time.LoadLocation("Local")
 	birthday, _ := time.ParseInLocation("2006-01-02 15:04:05", "2022-08-05 12:00:00", loc)
-	user := User{Name: "Jinzhu", Age: 18, Birthday: &birthday}
-	// 自动创建表格
-	db.AutoMigrate(user)
+	user := model.User{Name: "Jinzhu", Age: 18, Birthday: &birthday}
 	result := db.Create(&user)
 	if result.Error != nil {
 		panic(result.Error)
